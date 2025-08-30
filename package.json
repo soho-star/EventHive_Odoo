@@ -1,0 +1,35 @@
+{
+  "name": "eventhive",
+  "version": "1.0.0",
+  "description": "Complete Event Management Platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/src/server.js",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "test": "node test-application.js",
+    "build": "cd frontend && npm run build",
+    "setup": "npm run install-all"
+  },
+  "keywords": [
+    "event-management",
+    "booking-system",
+    "react",
+    "nodejs",
+    "mysql",
+    "jwt-authentication"
+  ],
+  "author": "EventHive Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soho-star/EventHive_Odoo.git"
+  }
+}
