@@ -1,3 +1,4 @@
+
 # EventHive - Event Management Platform
 
 <div align="center">
@@ -338,3 +339,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [🌟 Star this repo](https://github.com/soho-star/EventHive_Odoo) | [🐛 Report Issues](https://github.com/soho-star/EventHive_Odoo/issues) | [📖 Documentation](CONTEXT.md)
 
 </div>
+
