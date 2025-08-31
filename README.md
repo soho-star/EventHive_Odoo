@@ -19,19 +19,21 @@
 
 EventHive is a **full-stack event management platform** that bridges the gap between event organizers and attendees. It provides a seamless experience for creating, discovering, booking, and managing events with integrated local storage, automated notifications, and real-time analytics.
 
+## 📹 Demo Video
+
+Watch the demo video here: [EventHive Demo](https://drive.google.com/file/d/1_7xtlpbaVYPqTUoRe4DCEasGgMhyj9Tr/view?usp=sharing)
+
+
 ### 🎪 Core Value Proposition
 
 - **For Organizers**: Streamlined event creation, ticket management, and attendee analytics
 - **For Attendees**: Easy event discovery, secure booking, and convenient ticket delivery
-- **For Venues**: QR-based check-in system with real-time validation
 
 ## ✨ Key Features
 
 ### 👥 For Attendees
 - **Event Discovery** - Location-based search with advanced filters
 - **Secure Booking** - Multi-step booking wizard with free events
-- **Digital Tickets** - QR/Barcode tickets delivered via Email
-- **Smart Reminders** - Automated notifications before events
 - **User Dashboard** - Personal event history and ticket management
 
 ### 🎯 For Organizers
@@ -39,38 +41,30 @@ EventHive is a **full-stack event management platform** that bridges the gap bet
 - **Ticket Configuration** - Multiple ticket types with limits
 - **Real-time Analytics** - Sales tracking, demographics, and revenue reports
 - **Attendee Management** - Searchable attendee lists with export functionality
-- **Check-in System** - QR code validation for secure entry
 
 ### 🔧 System Features
 - **Local-first Architecture** with role-based access control
 - **Real-time Updates** using modern React patterns
 - **Local File Storage** for images and documents
-- **Automated Email** notifications and reminders
-- **QR Code Validation** system for secure check-ins
 - **Comprehensive Logging** and error tracking
 
 ## 💻 Tech Stack
 
 ### 🎨 Frontend
 - **React 18** with functional components and hooks
-- **Material-UI (MUI)** for beautiful, accessible UI components
+- **TailwindCSS** for beautiful, accessible UI components
 - **Redux Toolkit** for state management
 - **React Router v6** for client-side routing
 - **React Query** for server state management
-- **Formik & Yup** for form handling and validation
 
 ### ⚙️ Backend
 - **Node.js** with Express.js framework
 - **MySQL** database with connection pooling
 - **JWT** authentication with bcrypt password hashing
 - **Multer** for file uploads
-- **Nodemailer** for email notifications
-- **Node-cron** for scheduled tasks
 
 ### 🔌 Local Services
 - **Local File System** for image and document storage
-- **Local SMTP** for email delivery
-- **Scheduled Tasks** for reminders and notifications
 
 ## 🚀 Getting Started
 
@@ -315,9 +309,6 @@ curl -X POST http://localhost:5000/api/events \
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
