@@ -76,7 +76,9 @@ router.post('/profile', upload.single('profileImage'), (req, res, next) => {
       });
     }
 
-    const fileUrl = `/uploads/${path.basename(path.dirname(req.file.path))}/${req.file.filename}`;
+    // Construct full URL with fallback
+    const baseUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
+    const fileUrl = `${baseUrl}/uploads/${path.basename(path.dirname(req.file.path))}/${req.file.filename}`;
 
     res.json({
       success: true,
@@ -105,7 +107,9 @@ router.post('/event-poster', upload.single('eventPoster'), (req, res, next) => {
       });
     }
 
-    const fileUrl = `/uploads/${path.basename(path.dirname(req.file.path))}/${req.file.filename}`;
+    // Construct full URL with fallback
+    const baseUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
+    const fileUrl = `${baseUrl}/uploads/${path.basename(path.dirname(req.file.path))}/${req.file.filename}`;
 
     res.json({
       success: true,
@@ -134,8 +138,11 @@ router.post('/event-images', upload.array('eventImages', 5), (req, res, next) =>
       });
     }
 
+    // Construct full URL with fallback
+    const baseUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
+    
     const uploadedFiles = req.files.map(file => {
-      const fileUrl = `/uploads/${path.basename(path.dirname(file.path))}/${file.filename}`;
+      const fileUrl = `${baseUrl}/uploads/${path.basename(path.dirname(file.path))}/${file.filename}`;
       return {
         filename: file.filename,
         originalName: file.originalname,

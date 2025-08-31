@@ -3,12 +3,79 @@
 @tailwind utilities;
 
 @layer base {
-  body {
+  html, body {
     font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
   }
   
   html {
     scroll-behavior: smooth;
+  }
+  
+  body {
+    color: white;
+  }
+
+  /* Aurora Hero Animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-15px) rotate(120deg);
+    }
+    66% {
+      transform: translateY(-25px) rotate(240deg);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes aurora-shimmer {
+    0%, 100% {
+      opacity: 0.3;
+      transform: translateX(-100%) skewX(-15deg);
+    }
+    50% {
+      opacity: 0.8;
+      transform: translateX(100%) skewX(-15deg);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  .animate-aurora-shimmer {
+    animation: aurora-shimmer 3s ease-in-out infinite;
+  }
+
+  .animate-gradient-shift {
+    animation: gradient-shift 6s ease infinite;
+    background-size: 200% 200%;
   }
 }
 
@@ -56,20 +123,20 @@
   
   /* Form Components */
   .form-input {
-    @apply flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply flex h-10 w-full rounded-lg border border-gray-600 bg-gray-700 px-3 py-2 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50;
   }
   
   .form-label {
-    @apply text-sm font-medium leading-none;
+    @apply text-sm font-medium leading-none text-gray-200;
   }
   
   .form-error {
-    @apply text-sm text-red-600 mt-1;
+    @apply text-sm text-red-400 mt-1;
   }
   
   /* Card Components */
   .card {
-    @apply rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm;
+    @apply rounded-xl border border-gray-700 bg-gray-800/50 text-white shadow-sm backdrop-blur-sm;
   }
   
   .card-header {
@@ -77,11 +144,11 @@
   }
   
   .card-title {
-    @apply text-2xl font-semibold leading-none tracking-tight;
+    @apply text-2xl font-semibold leading-none tracking-tight text-white;
   }
   
   .card-description {
-    @apply text-sm text-gray-600;
+    @apply text-sm text-gray-300;
   }
   
   .card-content {

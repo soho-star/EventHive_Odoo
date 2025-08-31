@@ -1,4 +1,4 @@
-const { executeQuery } = require('../config/database');
+const { executeQuery, executeTransaction } = require('../config/database');
 
 class Event {
   constructor(data) {
@@ -44,24 +44,28 @@ class Event {
       location,
       latitude,
       longitude,
+      posterUrl,
+      additionalImages,
       ticketTypes
     } = eventData;
 
-    try {
-      // Start transaction
-      await executeQuery('START TRANSACTION');
-
+    return await executeTransaction(async (connection) => {
       // Insert event
       const eventQuery = `
         INSERT INTO events (
           name, description, category, event_start, event_end,
-          registration_start, registration_end, location, latitude, longitude, organizer_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          registration_start, registration_end, location, latitude, longitude, 
+          poster_url, additional_images, organizer_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
-      const eventResult = await executeQuery(eventQuery, [
+      const [eventResult] = await connection.execute(eventQuery, [
         name, description, category, eventStart, eventEnd,
-        registrationStart, registrationEnd, location, latitude, longitude, organizerId
+        registrationStart, registrationEnd, location, 
+        latitude || null, longitude || null, 
+        posterUrl || null, 
+        additionalImages ? JSON.stringify(additionalImages) : null, 
+        organizerId
       ]);
 
       const eventId = eventResult.insertId;
@@ -74,25 +78,20 @@ class Event {
           ) VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
 
-        await executeQuery(ticketQuery, [
+        await connection.execute(ticketQuery, [
           eventId,
           ticket.typeName,
           ticket.price || 0,
           ticket.maxPerUser || 1,
           ticket.maxTotal,
-          ticket.saleStart || eventData.registrationStart,
-          ticket.saleEnd || eventData.registrationEnd
+          ticket.saleStart || null,
+          ticket.saleEnd || null
         ]);
       }
 
-      // Commit transaction
-      await executeQuery('COMMIT');
-
+      // Return the created event with tickets
       return await Event.findById(eventId);
-    } catch (error) {
-      await executeQuery('ROLLBACK');
-      throw error;
-    }
+    });
   }
 
   // Find event by ID with related data

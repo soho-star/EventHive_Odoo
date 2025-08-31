@@ -14,6 +14,7 @@ import bookingService from '../../services/bookingService';
 import Card from '../../components/UI/Card';
 import Button from '../../components/UI/Button';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
+import AuroraBackground from '../../components/UI/AuroraBackground';
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
@@ -62,30 +63,38 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back, {user?.username}!
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Here's what's happening with your events and bookings.
-          </p>
+    <div className="min-h-screen text-white">
+      {/* Hero Section with Aurora */}
+      <AuroraBackground 
+        variant="dashboard" 
+        className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white py-16"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Welcome back, {user?.username}!
+            </h1>
+            <p className="text-xl text-primary-100 max-w-2xl mx-auto">
+              Here's what's happening with your events and bookings.
+            </p>
+          </div>
         </div>
+      </AuroraBackground>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {dashboardCards.map((card, index) => (
             <Link key={index} to={card.href}>
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
                 <Card.Content className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-gray-600">
+                      <p className="text-sm font-medium text-gray-300">
                         {card.title}
                       </p>
-                      <p className="text-3xl font-bold text-gray-900">
+                      <p className="text-3xl font-bold text-white">
                         {card.value}
                       </p>
                     </div>
@@ -101,12 +110,12 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Recent Bookings */}
-          <Card>
+          <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
             <Card.Header>
               <div className="flex items-center justify-between">
-                <Card.Title>Recent Bookings</Card.Title>
+                <Card.Title className="text-white">Recent Bookings</Card.Title>
                 <Link to="/dashboard/bookings">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white hover:bg-gray-700">
                     View All
                     <ArrowRightIcon className="w-4 h-4 ml-2" />
                   </Button>
@@ -121,8 +130,8 @@ const Dashboard = () => {
                 </div>
               ) : recentBookings.length === 0 ? (
                 <div className="text-center py-8">
-                  <TicketIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 mb-4">No bookings yet</p>
+                  <TicketIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-300 mb-4">No bookings yet</p>
                   <Link to="/events">
                     <Button size="sm">
                       Browse Events
@@ -132,20 +141,20 @@ const Dashboard = () => {
               ) : (
                 <div className="space-y-4">
                   {recentBookings.map((booking) => (
-                    <div key={booking.bookingId} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div key={booking.bookingId} className="flex items-center justify-between p-4 bg-gray-700/50 rounded-lg border border-gray-600">
                       <div>
-                        <h4 className="font-medium text-gray-900">
+                        <h4 className="font-medium text-white">
                           {booking.event.name}
                         </h4>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-300">
                           {new Date(booking.event.eventStart).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-gray-900">
+                        <p className="font-medium text-white">
                           {booking.attendees.length} ticket{booking.attendees.length !== 1 ? 's' : ''}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-300">
                           ${booking.amount}
                         </p>
                       </div>
@@ -157,10 +166,10 @@ const Dashboard = () => {
           </Card>
 
           {/* Quick Actions */}
-          <Card>
+          <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
             <Card.Header>
-              <Card.Title>Quick Actions</Card.Title>
-              <Card.Description>
+              <Card.Title className="text-white">Quick Actions</Card.Title>
+              <Card.Description className="text-gray-300">
                 Common tasks and shortcuts
               </Card.Description>
             </Card.Header>
@@ -168,32 +177,32 @@ const Dashboard = () => {
             <Card.Content>
               <div className="space-y-4">
                 <Link to="/events">
-                  <div className="flex items-center p-4 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors cursor-pointer">
-                    <CalendarIcon className="w-8 h-8 text-primary-600 mr-4" />
+                  <div className="flex items-center p-4 bg-primary-500/20 hover:bg-primary-500/30 rounded-lg transition-colors cursor-pointer border border-primary-500/20">
+                    <CalendarIcon className="w-8 h-8 text-primary-400 mr-4" />
                     <div>
-                      <h4 className="font-medium text-primary-900">Browse Events</h4>
-                      <p className="text-sm text-primary-700">Discover new events in your area</p>
+                      <h4 className="font-medium text-white">Browse Events</h4>
+                      <p className="text-sm text-gray-300">Discover new events in your area</p>
                     </div>
                   </div>
                 </Link>
 
                 <Link to="/dashboard/profile">
-                  <div className="flex items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer">
-                    <UserIcon className="w-8 h-8 text-gray-600 mr-4" />
+                  <div className="flex items-center p-4 bg-gray-700/50 hover:bg-gray-600/50 rounded-lg transition-colors cursor-pointer border border-gray-600">
+                    <UserIcon className="w-8 h-8 text-gray-400 mr-4" />
                     <div>
-                      <h4 className="font-medium text-gray-900">Update Profile</h4>
-                      <p className="text-sm text-gray-600">Manage your account settings</p>
+                      <h4 className="font-medium text-white">Update Profile</h4>
+                      <p className="text-sm text-gray-300">Manage your account settings</p>
                     </div>
                   </div>
                 </Link>
 
                 {(user?.role === 'organizer' || user?.role === 'admin') && (
                   <Link to="/organizer/events/create">
-                    <div className="flex items-center p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors cursor-pointer">
-                      <PlusIcon className="w-8 h-8 text-green-600 mr-4" />
+                    <div className="flex items-center p-4 bg-green-500/20 hover:bg-green-500/30 rounded-lg transition-colors cursor-pointer border border-green-500/20">
+                      <PlusIcon className="w-8 h-8 text-green-400 mr-4" />
                       <div>
-                        <h4 className="font-medium text-green-900">Create Event</h4>
-                        <p className="text-sm text-green-700">Start organizing your next event</p>
+                        <h4 className="font-medium text-white">Create Event</h4>
+                        <p className="text-sm text-gray-300">Start organizing your next event</p>
                       </div>
                     </div>
                   </Link>

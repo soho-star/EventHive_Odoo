@@ -28,16 +28,29 @@ api.interceptors.request.use(
 // Response interceptor to handle errors
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     const message = error.response?.data?.message || error.message || 'Something went wrong';
     
     // Handle specific error cases
     if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
-      toast.error('Session expired. Please login again.');
+      // Check if this is an admin route to avoid automatic redirect
+      const isAdminRoute = error.config?.url?.includes('/admin') || 
+                          error.config?.url?.includes('/api/admin');
+      
+      if (isAdminRoute) {
+        // For admin routes, don't automatically redirect, let the component handle it
+        if (message.includes('Token expired')) {
+          toast.error('Your session has expired. Please login again.');
+        } else {
+          toast.error('Authentication required. Please login again.');
+        }
+      } else {
+        // For non-admin routes, clear token and redirect to login
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+        toast.error('Session expired. Please login again.');
+      }
     } else if (error.response?.status === 403) {
       toast.error('You do not have permission to perform this action.');
     } else if (error.response?.status === 404) {

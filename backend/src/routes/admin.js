@@ -11,6 +11,30 @@ const router = express.Router();
 router.use(authenticateToken);
 router.use(authorizeRoles('admin'));
 
+// @desc    Admin health check
+// @route   GET /api/admin/health
+// @access  Private (Admin)
+router.get('/health', async (req, res, next) => {
+  try {
+    res.json({
+      success: true,
+      message: 'Admin authentication successful',
+      data: {
+        user: {
+          id: req.user.id,
+          username: req.user.username,
+          email: req.user.email,
+          role: req.user.role,
+          isVerified: req.user.is_verified
+        },
+        timestamp: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // @desc    Get all users
 // @route   GET /api/admin/users
 // @access  Private (Admin)
@@ -224,6 +248,29 @@ router.patch('/users/:id/verify', async (req, res, next) => {
       success: true,
       message: `User ${isVerified ? 'verified' : 'unverified'} successfully`,
       data: { user }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Delete event
+// @route   DELETE /api/admin/events/:id
+// @access  Private (Admin)
+router.delete('/events/:id', async (req, res, next) => {
+  try {
+    const deleted = await Event.deleteById(req.params.id);
+
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Event deleted successfully'
     });
   } catch (error) {
     next(error);

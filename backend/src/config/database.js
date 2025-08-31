@@ -87,13 +87,30 @@ async function getConnection() {
   }
 }
 
+// Execute transaction
+async function executeTransaction(callback) {
+  const connection = await getConnection();
+  try {
+    await connection.beginTransaction();
+    const result = await callback(connection);
+    await connection.commit();
+    return result;
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+}
+
 module.exports = {
   pool,
   testConnection,
   createDatabase,
   initializeDatabase,
   executeQuery,
-  getConnection
+  getConnection,
+  executeTransaction
 };
 
 // Run initialization if this file is executed directly

@@ -13,6 +13,7 @@ import eventService from '../services/eventService';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
+import MapComponent from '../components/UI/MapComponent';
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -52,7 +53,7 @@ const EventDetails = () => {
   const isUpcoming = eventDate > new Date();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen text-white">
       {/* Hero Section */}
       <div className="relative h-96 bg-gray-900">
         {event.posterUrl ? (
@@ -95,29 +96,29 @@ const EventDetails = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            <Card>
+            <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
               <Card.Header>
-                <Card.Title>About This Event</Card.Title>
+                <Card.Title className="text-white">About This Event</Card.Title>
               </Card.Header>
               <Card.Content>
-                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
                   {event.description}
                 </p>
               </Card.Content>
             </Card>
 
             {/* Event Details */}
-            <Card>
+            <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
               <Card.Header>
-                <Card.Title>Event Details</Card.Title>
+                <Card.Title className="text-white">Event Details</Card.Title>
               </Card.Header>
               <Card.Content>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex items-start space-x-3">
                     <CalendarIcon className="w-5 h-5 text-gray-400 mt-1" />
                     <div>
-                      <h4 className="font-medium text-gray-900">Date & Time</h4>
-                      <p className="text-gray-600">
+                      <h4 className="font-medium text-white">Date & Time</h4>
+                      <p className="text-gray-300">
                         {eventDate.toLocaleDateString('en-US', {
                           weekday: 'long',
                           year: 'numeric',
@@ -125,7 +126,7 @@ const EventDetails = () => {
                           day: 'numeric'
                         })}
                       </p>
-                      <p className="text-gray-600">
+                      <p className="text-gray-300">
                         {eventDate.toLocaleTimeString('en-US', {
                           hour: '2-digit',
                           minute: '2-digit'
@@ -137,50 +138,89 @@ const EventDetails = () => {
                   <div className="flex items-start space-x-3">
                     <MapPinIcon className="w-5 h-5 text-gray-400 mt-1" />
                     <div>
-                      <h4 className="font-medium text-gray-900">Location</h4>
-                      <p className="text-gray-600">{event.location}</p>
+                      <h4 className="font-medium text-white">Location</h4>
+                      <p className="text-gray-300">{event.location}</p>
                     </div>
                   </div>
 
                   <div className="flex items-start space-x-3">
                     <UserIcon className="w-5 h-5 text-gray-400 mt-1" />
                     <div>
-                      <h4 className="font-medium text-gray-900">Organizer</h4>
-                      <p className="text-gray-600">{event.organizer?.username}</p>
+                      <h4 className="font-medium text-white">Organizer</h4>
+                      <p className="text-gray-300">{event.organizer?.username}</p>
                     </div>
                   </div>
 
                   <div className="flex items-start space-x-3">
                     <TicketIcon className="w-5 h-5 text-gray-400 mt-1" />
                     <div>
-                      <h4 className="font-medium text-gray-900">Category</h4>
-                      <p className="text-gray-600 capitalize">{event.category}</p>
+                      <h4 className="font-medium text-white">Category</h4>
+                      <p className="text-gray-300 capitalize">{event.category}</p>
                     </div>
                   </div>
                 </div>
               </Card.Content>
             </Card>
+
+            {/* Location Map */}
+            {event.latitude && event.longitude && (
+              <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
+                <Card.Header>
+                  <Card.Title className="text-white">Location</Card.Title>
+                </Card.Header>
+                <Card.Content className="p-0">
+                  <MapComponent
+                    events={[event]}
+                    center={[event.longitude, event.latitude]}
+                    zoom={15}
+                    height="300px"
+                    showUserLocation={false}
+                    className="w-full"
+                  />
+                  <div className="p-6 pt-4">
+                    <div className="flex items-start space-x-3">
+                      <MapPinIcon className="w-5 h-5 text-gray-400 mt-1" />
+                      <div>
+                        <h4 className="font-medium text-white mb-1">Venue</h4>
+                        <p className="text-gray-300">{event.location}</p>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="mt-3 border-gray-600 bg-transparent text-white hover:bg-gray-700"
+                          onClick={() => {
+                            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`;
+                            window.open(googleMapsUrl, '_blank');
+                          }}
+                        >
+                          Get Directions
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Card.Content>
+              </Card>
+            )}
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Booking Card */}
-            <Card>
+            <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
               <Card.Header>
-                <Card.Title>Get Your Tickets</Card.Title>
+                <Card.Title className="text-white">Get Your Tickets</Card.Title>
               </Card.Header>
               <Card.Content>
                 {event.ticketTypes && event.ticketTypes.length > 0 ? (
                   <div className="space-y-4">
                     {event.ticketTypes.map((ticket) => (
-                      <div key={ticket.id} className="border rounded-lg p-4">
+                      <div key={ticket.id} className="border border-gray-600 bg-gray-700/30 rounded-lg p-4">
                         <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-medium text-gray-900">{ticket.typeName}</h4>
-                          <span className="font-bold text-primary-600">
+                          <h4 className="font-medium text-white">{ticket.typeName}</h4>
+                          <span className="font-bold text-primary-400">
                             {ticket.price === 0 ? 'Free' : `$${ticket.price}`}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600 mb-3">
+                        <p className="text-sm text-gray-300 mb-3">
                           {ticket.available || 'Available'} tickets remaining
                         </p>
                         {isUpcoming ? (
@@ -199,7 +239,7 @@ const EventDetails = () => {
                   </div>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-gray-500 mb-4">No tickets available</p>
+                    <p className="text-gray-300 mb-4">No tickets available</p>
                     <Button disabled className="w-full">
                       Not Available
                     </Button>
@@ -209,12 +249,12 @@ const EventDetails = () => {
             </Card>
 
             {/* Share Card */}
-            <Card>
+            <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
               <Card.Header>
-                <Card.Title>Share This Event</Card.Title>
+                <Card.Title className="text-white">Share This Event</Card.Title>
               </Card.Header>
               <Card.Content>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full border-gray-600 bg-transparent text-white hover:bg-gray-700">
                   <ShareIcon className="w-4 h-4 mr-2" />
                   Share Event
                 </Button>

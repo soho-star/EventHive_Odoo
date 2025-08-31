@@ -49,10 +49,11 @@ const MyEvents = () => {
     }
   };
 
-  const handleTogglePublish = async (eventId) => {
+  const handleTogglePublish = async (eventId, currentStatus) => {
     try {
-      await eventService.toggleEventPublish(eventId);
-      toast.success('Event status updated successfully');
+      const newStatus = !currentStatus;
+      await eventService.toggleEventPublish(eventId, newStatus);
+      toast.success(`Event ${newStatus ? 'published' : 'unpublished'} successfully`);
       fetchEvents(); // Refresh the list
     } catch (error) {
       console.error('Error updating event status:', error);
@@ -76,32 +77,32 @@ const MyEvents = () => {
     const eventEnd = new Date(event.eventEnd);
 
     if (!event.isPublished) {
-      return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">Draft</span>;
+      return <span className="px-2 py-1 text-xs font-medium bg-gray-600 text-gray-200 rounded-full">Draft</span>;
     } else if (now < eventStart) {
-      return <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">Upcoming</span>;
+      return <span className="px-2 py-1 text-xs font-medium bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30">Upcoming</span>;
     } else if (now >= eventStart && now <= eventEnd) {
-      return <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Live</span>;
+      return <span className="px-2 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded-full border border-green-500/30">Live</span>;
     } else {
-      return <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">Ended</span>;
+      return <span className="px-2 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full border border-red-500/30">Ended</span>;
     }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen text-white flex items-center justify-center">
         <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Events</h1>
-            <p className="mt-2 text-gray-600">Manage your events and track their performance</p>
+            <h1 className="text-3xl font-bold text-white">My Events</h1>
+            <p className="mt-2 text-gray-300">Manage your events and track their performance</p>
           </div>
           <Link to="/organizer/events/create">
             <Button className="flex items-center gap-2">
@@ -118,8 +119,8 @@ const MyEvents = () => {
               onClick={() => setFilter('all')}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 filter === 'all'
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
               }`}
             >
               All Events ({events.length})
@@ -128,8 +129,8 @@ const MyEvents = () => {
               onClick={() => setFilter('published')}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 filter === 'published'
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
               }`}
             >
               Published
@@ -138,8 +139,8 @@ const MyEvents = () => {
               onClick={() => setFilter('unpublished')}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 filter === 'unpublished'
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
               }`}
             >
               Drafts
@@ -149,7 +150,7 @@ const MyEvents = () => {
 
         {/* Events List */}
         {events.length === 0 ? (
-          <Card>
+          <Card className="bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
             <Card.Content className="text-center py-12">
               <div className="max-w-md mx-auto">
                 <div className="mb-4">
@@ -167,8 +168,8 @@ const MyEvents = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No events found</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-lg font-medium text-white mb-2">No events found</h3>
+                <p className="text-gray-300 mb-4">
                   {filter === 'all' 
                     ? "You haven't created any events yet. Start by creating your first event!"
                     : `No ${filter} events found.`
@@ -183,7 +184,7 @@ const MyEvents = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => (
-              <Card key={event.id} className="overflow-hidden">
+              <Card key={event.id} className="overflow-hidden bg-gray-800/50 backdrop-blur-sm border-gray-700 text-white">
                 <div className="aspect-video bg-gradient-to-r from-primary-500 to-primary-600 relative">
                   {event.posterUrl ? (
                     <img
@@ -205,15 +206,15 @@ const MyEvents = () => {
 
                 <Card.Content className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-semibold text-white mb-1">
                       {event.name}
                     </h3>
-                    <p className="text-sm text-gray-600 capitalize">
+                    <p className="text-sm text-gray-300 capitalize">
                       {event.category} • {event.location}
                     </p>
                   </div>
 
-                  <div className="mb-4 text-sm text-gray-600">
+                  <div className="mb-4 text-sm text-gray-300">
                     <p>📅 {formatDate(event.eventStart)}</p>
                     {event.ticketTypes && event.ticketTypes.length > 0 && (
                       <p>🎫 {event.ticketTypes.length} ticket type(s)</p>
@@ -223,17 +224,17 @@ const MyEvents = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex space-x-2">
                       <Link to={`/events/${event.id}`}>
-                        <Button variant="ghost" size="sm" title="View Event">
+                        <Button variant="ghost" size="sm" title="View Event" className="text-gray-300 hover:text-white hover:bg-gray-700">
                           <EyeIcon className="w-4 h-4" />
                         </Button>
                       </Link>
                       <Link to={`/organizer/events/${event.id}/edit`}>
-                        <Button variant="ghost" size="sm" title="Edit Event">
+                        <Button variant="ghost" size="sm" title="Edit Event" className="text-gray-300 hover:text-white hover:bg-gray-700">
                           <PencilIcon className="w-4 h-4" />
                         </Button>
                       </Link>
                       <Link to={`/organizer/events/${event.id}/analytics`}>
-                        <Button variant="ghost" size="sm" title="View Analytics">
+                        <Button variant="ghost" size="sm" title="View Analytics" className="text-gray-300 hover:text-white hover:bg-gray-700">
                           <ChartBarIcon className="w-4 h-4" />
                         </Button>
                       </Link>
@@ -241,7 +242,7 @@ const MyEvents = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleDeleteEvent(event.id)}
-                        className="text-red-600 hover:text-red-700"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
                         title="Delete Event"
                       >
                         <TrashIcon className="w-4 h-4" />
@@ -251,7 +252,8 @@ const MyEvents = () => {
                     <Button
                       variant={event.isPublished ? 'outline' : 'default'}
                       size="sm"
-                      onClick={() => handleTogglePublish(event.id)}
+                      onClick={() => handleTogglePublish(event.id, event.isPublished)}
+                      className={event.isPublished ? 'border-gray-600 bg-transparent text-white hover:bg-gray-700' : ''}
                     >
                       {event.isPublished ? 'Unpublish' : 'Publish'}
                     </Button>

@@ -68,8 +68,8 @@ const eventService = {
   },
 
   // Toggle event publish status
-  toggleEventPublish: async (id) => {
-    const response = await api.patch(`/events/${id}/publish`);
+  toggleEventPublish: async (id, isPublished) => {
+    const response = await api.patch(`/events/${id}/publish`, { isPublished });
     return response.data;
   },
 

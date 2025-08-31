@@ -4,7 +4,7 @@ const uploadService = {
   // Upload profile image
   uploadProfileImage: async (file) => {
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('profileImage', file);
     
     const response = await api.post('/upload/profile', formData, {
       headers: {
@@ -17,7 +17,7 @@ const uploadService = {
   // Upload event poster
   uploadEventPoster: async (file) => {
     const formData = new FormData();
-    formData.append('poster', file);
+    formData.append('eventPoster', file);
     
     const response = await api.post('/upload/event-poster', formData, {
       headers: {
@@ -27,11 +27,11 @@ const uploadService = {
     return response.data;
   },
 
-  // Upload event images
+  // Upload multiple event images
   uploadEventImages: async (files) => {
     const formData = new FormData();
     files.forEach((file) => {
-      formData.append('images', file);
+      formData.append('eventImages', file);
     });
     
     const response = await api.post('/upload/event-images', formData, {

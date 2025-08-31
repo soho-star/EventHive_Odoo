@@ -48,8 +48,8 @@ const Register = () => {
   return (
     <div>
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900">Create your account</h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <h2 className="text-3xl font-bold text-white">Create your account</h2>
+        <p className="mt-2 text-sm text-gray-300">
           Join EventHive and start your event journey
         </p>
       </div>
@@ -125,7 +125,7 @@ const Register = () => {
           />
           <button
             type="button"
-            className="absolute right-3 top-9 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-9 text-gray-400 hover:text-gray-200"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? (
@@ -151,7 +151,7 @@ const Register = () => {
           />
           <button
             type="button"
-            className="absolute right-3 top-9 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-9 text-gray-400 hover:text-gray-200"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
           >
             {showConfirmPassword ? (
@@ -163,7 +163,7 @@ const Register = () => {
         </div>
 
         <div>
-          <label className="text-sm font-medium text-gray-700 mb-3 block">
+          <label className="text-sm font-medium text-gray-200 mb-3 block">
             I want to join as:
           </label>
           <div className="space-y-2">
@@ -171,11 +171,11 @@ const Register = () => {
               <input
                 type="radio"
                 value="user"
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-500 bg-gray-700"
                 {...register('role', { required: 'Please select a role' })}
                 defaultChecked
               />
-              <span className="ml-2 text-sm text-gray-900">
+              <span className="ml-2 text-sm text-gray-200">
                 Attendee - I want to discover and attend events
               </span>
             </label>
@@ -183,10 +183,10 @@ const Register = () => {
               <input
                 type="radio"
                 value="organizer"
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-500 bg-gray-700"
                 {...register('role', { required: 'Please select a role' })}
               />
-              <span className="ml-2 text-sm text-gray-900">
+              <span className="ml-2 text-sm text-gray-200">
                 Organizer - I want to create and manage events
               </span>
             </label>
@@ -200,18 +200,18 @@ const Register = () => {
           <input
             id="agree-terms"
             type="checkbox"
-            className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-500 bg-gray-700 rounded"
             {...register('agreeTerms', {
               required: 'You must agree to the terms and conditions',
             })}
           />
-          <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-900">
+          <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-200">
             I agree to the{' '}
-            <Link to="#" className="text-primary-600 hover:text-primary-500">
+            <Link to="#" className="text-blue-400 hover:text-blue-300">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link to="#" className="text-primary-600 hover:text-primary-500">
+            <Link to="#" className="text-blue-400 hover:text-blue-300">
               Privacy Policy
             </Link>
           </label>
@@ -232,17 +232,17 @@ const Register = () => {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-gray-600" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Already have an account?</span>
+              <span className="px-2 bg-gray-800 text-gray-300">Already have an account?</span>
             </div>
           </div>
 
           <div className="mt-6 text-center">
             <Link
               to="/auth/login"
-              className="font-medium text-primary-600 hover:text-primary-500"
+              className="font-medium text-blue-400 hover:text-blue-300"
             >
               Sign in to your account
             </Link>

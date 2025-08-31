@@ -50,8 +50,8 @@ const Login = () => {
   return (
     <div>
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900">Welcome back</h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <h2 className="text-3xl font-bold text-white">Welcome back</h2>
+        <p className="mt-2 text-sm text-gray-300">
           Sign in to your EventHive account
         </p>
       </div>
@@ -89,7 +89,7 @@ const Login = () => {
           />
           <button
             type="button"
-            className="absolute right-3 top-9 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-9 text-gray-400 hover:text-gray-200"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? (
@@ -106,9 +106,9 @@ const Login = () => {
               id="remember-me"
               name="remember-me"
               type="checkbox"
-              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-500 bg-gray-700 rounded"
             />
-            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-200">
               Remember me
             </label>
           </div>
@@ -116,7 +116,7 @@ const Login = () => {
           <div className="text-sm">
             <Link
               to="/auth/forgot-password"
-              className="font-medium text-primary-600 hover:text-primary-500"
+              className="font-medium text-blue-400 hover:text-blue-300"
             >
               Forgot your password?
             </Link>
@@ -135,20 +135,30 @@ const Login = () => {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-gray-600" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">New to EventHive?</span>
+              <span className="px-2 bg-gray-800 text-gray-300">New to EventHive?</span>
             </div>
           </div>
 
-          <div className="mt-6 text-center">
-            <Link
-              to="/auth/register"
-              className="font-medium text-primary-600 hover:text-primary-500"
-            >
-              Create your account
-            </Link>
+          <div className="mt-6 text-center space-y-2">
+            <div>
+              <Link
+                to="/auth/register"
+                className="font-medium text-blue-400 hover:text-blue-300"
+              >
+                Create your account
+              </Link>
+            </div>
+            <div>
+              <Link
+                to="/admin/login"
+                className="text-sm text-gray-400 hover:text-gray-300"
+              >
+                Admin Login →
+              </Link>
+            </div>
           </div>
         </div>
       </form>

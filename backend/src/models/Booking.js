@@ -1,4 +1,4 @@
-const { executeQuery } = require('../config/database');
+const { executeQuery, executeTransaction } = require('../config/database');
 const { v4: uuidv4 } = require('uuid');
 
 class Booking {
@@ -44,10 +44,7 @@ class Booking {
       attendees
     } = bookingData;
 
-    try {
-      // Start transaction
-      await executeQuery('START TRANSACTION');
-
+    return await executeTransaction(async (connection) => {
       // Verify ticket availability
       const ticketQuery = `
         SELECT t.*, e.name as event_name, e.event_start, e.registration_end
@@ -56,7 +53,7 @@ class Booking {
         WHERE t.id = ? AND t.event_id = ? AND t.is_active = 1
       `;
 
-      const tickets = await executeQuery(ticketQuery, [ticketId, eventId]);
+      const [tickets] = await connection.execute(ticketQuery, [ticketId, eventId]);
       
       if (tickets.length === 0) {
         throw new Error('Ticket not found or not available');
@@ -87,7 +84,7 @@ class Booking {
         WHERE user_id = ? AND event_id = ? AND payment_status = 'completed'
       `;
 
-      const existingBookings = await executeQuery(existingBookingsQuery, [userId, eventId]);
+      const [existingBookings] = await connection.execute(existingBookingsQuery, [userId, eventId]);
       const existingQuantity = existingBookings[0].total_quantity || 0;
 
       if (existingQuantity + quantity > ticket.max_per_user) {
@@ -108,7 +105,7 @@ class Booking {
         ) VALUES (?, ?, ?, ?, ?, ?, 'completed', 'free')
       `;
 
-      const transactionResult = await executeQuery(transactionQuery, [
+      const [transactionResult] = await connection.execute(transactionQuery, [
         bookingId, userId, eventId, ticketId, quantity, amount
       ]);
 
@@ -126,7 +123,7 @@ class Booking {
           ) VALUES (?, ?, ?, ?, ?, ?)
         `;
 
-        const attendeeResult = await executeQuery(attendeeQuery, [
+        const [attendeeResult] = await connection.execute(attendeeQuery, [
           transactionId,
           attendee.name,
           attendee.email,
@@ -149,10 +146,7 @@ class Booking {
         WHERE id = ?
       `;
 
-      await executeQuery(updateTicketQuery, [quantity, ticketId]);
-
-      // Commit transaction
-      await executeQuery('COMMIT');
+      await connection.execute(updateTicketQuery, [quantity, ticketId]);
 
       // Return booking with attendee info
       const booking = await Booking.findByBookingId(bookingId);
@@ -160,11 +154,7 @@ class Booking {
         ...booking,
         attendees: attendeeIds
       };
-
-    } catch (error) {
-      await executeQuery('ROLLBACK');
-      throw error;
-    }
+    });
   }
 
   // Find booking by booking ID
@@ -413,9 +403,7 @@ class Booking {
 
   // Cancel booking
   static async cancel(bookingId, userId = null) {
-    try {
-      await executeQuery('START TRANSACTION');
-
+    return await executeTransaction(async (connection) => {
       // Find booking
       let findQuery = 'SELECT * FROM transactions WHERE booking_id = ?';
       const findParams = [bookingId];
@@ -425,7 +413,7 @@ class Booking {
         findParams.push(userId);
       }
 
-      const bookings = await executeQuery(findQuery, findParams);
+      const [bookings] = await connection.execute(findQuery, findParams);
 
       if (bookings.length === 0) {
         throw new Error('Booking not found or unauthorized');
@@ -439,7 +427,7 @@ class Booking {
 
       // Check if cancellation is allowed (e.g., not too close to event date)
       const eventQuery = 'SELECT event_start FROM events WHERE id = ?';
-      const events = await executeQuery(eventQuery, [booking.event_id]);
+      const [events] = await connection.execute(eventQuery, [booking.event_id]);
       
       if (events.length > 0) {
         const eventStart = new Date(events[0].event_start);
@@ -458,7 +446,7 @@ class Booking {
         WHERE id = ?
       `;
 
-      await executeQuery(updateQuery, [booking.id]);
+      await connection.execute(updateQuery, [booking.id]);
 
       // Update ticket sold count
       const updateTicketQuery = `
@@ -467,15 +455,10 @@ class Booking {
         WHERE id = ?
       `;
 
-      await executeQuery(updateTicketQuery, [booking.quantity, booking.ticket_id]);
-
-      await executeQuery('COMMIT');
+      await connection.execute(updateTicketQuery, [booking.quantity, booking.ticket_id]);
 
       return true;
-    } catch (error) {
-      await executeQuery('ROLLBACK');
-      throw error;
-    }
+    });
   }
 
   // Get booking statistics

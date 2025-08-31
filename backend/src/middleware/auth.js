@@ -15,7 +15,7 @@ const authenticateToken = async (req, res, next) => {
     }
 
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-jwt-secret-key-for-development');
     
     // Get user from database
     const userQuery = 'SELECT id, username, email, role, is_verified FROM users WHERE id = ?';
@@ -62,10 +62,18 @@ const authorizeRoles = (...roles) => {
       });
     }
 
+    // Check if user is verified (especially important for admin access)
+    if (!req.user.is_verified) {
+      return res.status(403).json({
+        success: false,
+        message: 'Account not verified. Please verify your account before accessing this resource.'
+      });
+    }
+
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'Access denied - insufficient permissions'
+        message: `Access denied. ${roles.join(' or ')} role required.`
       });
     }
 
@@ -80,7 +88,7 @@ const optionalAuth = async (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];
 
     if (token) {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-jwt-secret-key-for-development');
       const userQuery = 'SELECT id, username, email, role, is_verified FROM users WHERE id = ?';
       const users = await executeQuery(userQuery, [decoded.userId]);
       

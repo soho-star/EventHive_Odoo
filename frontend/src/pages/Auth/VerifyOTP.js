@@ -81,15 +81,15 @@ const VerifyOTP = () => {
   return (
     <div>
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900">Verify your account</h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <h2 className="text-3xl font-bold text-white">Verify your account</h2>
+        <p className="mt-2 text-sm text-gray-300">
           We've sent a 6-digit verification code to your email and phone
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+          <label className="block text-sm font-medium text-gray-200 mb-3">
             Enter verification code
           </label>
           <div className="flex space-x-3 justify-center">
@@ -104,7 +104,7 @@ const VerifyOTP = () => {
                 value={digit}
                 onChange={(e) => handleOtpChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-12 h-12 text-center text-xl font-semibold bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 autoComplete="off"
               />
             ))}
@@ -121,12 +121,12 @@ const VerifyOTP = () => {
         </Button>
 
         <div className="text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-300">
             Didn't receive the code?{' '}
             <button
               type="button"
               onClick={handleResendOTP}
-              className="font-medium text-primary-600 hover:text-primary-500"
+              className="font-medium text-primary-400 hover:text-primary-300"
             >
               Resend OTP
             </button>
@@ -136,17 +136,17 @@ const VerifyOTP = () => {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-gray-600" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Need help?</span>
+              <span className="px-2 bg-gray-800 text-gray-400">Need help?</span>
             </div>
           </div>
 
           <div className="mt-6 text-center">
             <Link
               to="/auth/register"
-              className="font-medium text-primary-600 hover:text-primary-500"
+              className="font-medium text-primary-400 hover:text-primary-300"
             >
               Back to registration
             </Link>

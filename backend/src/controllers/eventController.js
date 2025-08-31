@@ -23,7 +23,15 @@ const getEvents = async (req, res, next) => {
 
     res.json({
       success: true,
-      data: result
+      data: {
+        events: result.events,
+        pagination: {
+          currentPage: result.page,
+          totalPages: result.totalPages,
+          totalEvents: result.total,
+          limit: result.limit
+        }
+      }
     });
   } catch (error) {
     next(error);

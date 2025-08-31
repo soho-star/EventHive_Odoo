@@ -46,10 +46,16 @@ const Footer = () => {
             {/* Company Info */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">E</span>
-                </div>
-                <span className="text-xl font-bold">EventHive</span>
+                <img
+                  src="/EventHive.png"
+                  alt="EventHive"
+                  className="h-8 w-auto"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'block';
+                  }}
+                />
+                <span className="text-xl font-bold hidden">EventHive</span>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed">
                 Your comprehensive event management platform. Create, discover, and manage events with ease.

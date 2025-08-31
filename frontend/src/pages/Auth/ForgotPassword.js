@@ -33,13 +33,13 @@ const ForgotPassword = () => {
   if (isSuccess) {
     return (
       <div className="text-center">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-16 h-16 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Check your email</h2>
-        <p className="text-gray-600 mb-8">
+        <h2 className="text-2xl font-bold text-white mb-4">Check your email</h2>
+        <p className="text-gray-300 mb-8">
           We've sent a password reset link to your email address. Please check your inbox and follow the instructions.
         </p>
         <div className="space-y-4">
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
           </Link>
           <button
             onClick={() => setIsSuccess(false)}
-            className="text-sm text-primary-600 hover:text-primary-500"
+            className="text-sm text-primary-400 hover:text-primary-300"
           >
             Try different email
           </button>
@@ -64,13 +64,13 @@ const ForgotPassword = () => {
       <div className="mb-8">
         <Link
           to="/auth/login"
-          className="flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
+          className="flex items-center text-sm text-gray-300 hover:text-white mb-4"
         >
           <ArrowLeftIcon className="w-4 h-4 mr-2" />
           Back to sign in
         </Link>
-        <h2 className="text-3xl font-bold text-gray-900">Forgot your password?</h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <h2 className="text-3xl font-bold text-white">Forgot your password?</h2>
+        <p className="mt-2 text-sm text-gray-300">
           Enter your email address and we'll send you a link to reset your password.
         </p>
       </div>
@@ -103,7 +103,7 @@ const ForgotPassword = () => {
         <div className="text-center">
           <Link
             to="/auth/register"
-            className="text-sm font-medium text-primary-600 hover:text-primary-500"
+            className="text-sm font-medium text-primary-400 hover:text-primary-300"
           >
             Don't have an account? Sign up
           </Link>

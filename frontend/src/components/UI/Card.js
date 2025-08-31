@@ -2,7 +2,7 @@ import React from 'react';
 
 const Card = ({ children, className = '', ...props }) => {
   return (
-    <div className={`card ${className}`} {...props}>
+    <div className={`bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg shadow-lg ${className}`} {...props}>
       {children}
     </div>
   );
@@ -10,7 +10,7 @@ const Card = ({ children, className = '', ...props }) => {
 
 const CardHeader = ({ children, className = '', ...props }) => {
   return (
-    <div className={`card-header ${className}`} {...props}>
+    <div className={`px-6 py-4 border-b border-gray-700 ${className}`} {...props}>
       {children}
     </div>
   );
@@ -18,7 +18,7 @@ const CardHeader = ({ children, className = '', ...props }) => {
 
 const CardTitle = ({ children, className = '', ...props }) => {
   return (
-    <h3 className={`card-title ${className}`} {...props}>
+    <h3 className={`text-lg font-semibold text-white ${className}`} {...props}>
       {children}
     </h3>
   );
@@ -26,7 +26,7 @@ const CardTitle = ({ children, className = '', ...props }) => {
 
 const CardDescription = ({ children, className = '', ...props }) => {
   return (
-    <p className={`card-description ${className}`} {...props}>
+    <p className={`text-sm text-gray-300 ${className}`} {...props}>
       {children}
     </p>
   );
@@ -34,7 +34,7 @@ const CardDescription = ({ children, className = '', ...props }) => {
 
 const CardContent = ({ children, className = '', ...props }) => {
   return (
-    <div className={`card-content ${className}`} {...props}>
+    <div className={`px-6 py-4 text-gray-200 ${className}`} {...props}>
       {children}
     </div>
   );
@@ -42,7 +42,7 @@ const CardContent = ({ children, className = '', ...props }) => {
 
 const CardFooter = ({ children, className = '', ...props }) => {
   return (
-    <div className={`card-footer ${className}`} {...props}>
+    <div className={`px-6 py-4 border-t border-gray-700 ${className}`} {...props}>
       {children}
     </div>
   );

@@ -6,8 +6,8 @@ const { executeQuery } = require('../config/database');
 const generateToken = (userId, username, email, role) => {
   return jwt.sign(
     { userId, username, email, role },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRE || '24h' }
+    process.env.JWT_SECRET || 'fallback-jwt-secret-key-for-development',
+    { expiresIn: process.env.JWT_EXPIRE || '7d' }
   );
 };
 
@@ -197,6 +197,21 @@ const login = async (req, res, next) => {
           requiresVerification: true
         }
       });
+    }
+
+    // Check if admin user is trying to access admin routes
+    if (user.role === 'admin') {
+      // Additional verification for admin users
+      if (!user.isVerified) {
+        return res.status(403).json({
+          success: false,
+          message: 'Admin account must be verified before login. Please contact system administrator.',
+          data: {
+            userId: user.id,
+            requiresVerification: true
+          }
+        });
+      }
     }
 
     // Generate JWT token

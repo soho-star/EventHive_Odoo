@@ -57,17 +57,29 @@ const Header = () => {
     { name: 'Manage Events', href: '/admin/events', icon: CalendarIcon },
   ];
 
+  const isHomePage = location.pathname === '/';
+  
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="sticky top-0 z-50 transition-all duration-300 bg-gray-900/80 backdrop-blur-md border-b border-gray-800/50">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">E</span>
-              </div>
-              <span className="text-xl font-bold text-gray-900">EventHive</span>
+              <img
+                src="/EventHive.png"
+                alt="EventHive"
+                className="h-8 w-auto"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
+              <span 
+                className="text-xl font-bold hidden text-white"
+              >
+                EventHive
+              </span>
             </Link>
           </div>
 
@@ -77,10 +89,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-sm font-medium transition-colors hover:text-primary-600 ${
+                className={`text-sm font-medium transition-colors ${
                   location.pathname === item.href
-                    ? 'text-primary-600'
-                    : 'text-gray-700'
+                    ? 'text-white font-semibold'
+                    : 'text-gray-200 hover:text-white'
                 }`}
               >
                 {item.name}
@@ -203,13 +215,13 @@ const Header = () => {
               <div className="flex items-center space-x-4">
                 <Link
                   to="/auth/login"
-                  className="text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors"
+                  className="text-sm font-medium transition-colors text-gray-200 hover:text-white"
                 >
                   Sign in
                 </Link>
                 <Link
                   to="/auth/register"
-                  className="btn btn-primary btn-sm"
+                  className="px-4 py-2 text-sm font-medium rounded-lg transition-colors bg-white text-gray-900 hover:bg-gray-100"
                 >
                   Sign up
                 </Link>
@@ -219,7 +231,7 @@ const Header = () => {
             {/* Mobile menu button */}
             <button
               type="button"
-              className="md:hidden p-2 text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg"
+              className="md:hidden p-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-lg transition-colors text-gray-200 hover:text-white"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
@@ -243,15 +255,15 @@ const Header = () => {
           leaveTo="opacity-0 -translate-y-1"
         >
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+            <div className="px-2 pt-2 pb-3 space-y-1 border-t bg-gray-900/95 backdrop-blur-md border-gray-700">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={`block px-3 py-2 text-base font-medium rounded-lg transition-colors ${
                     location.pathname === item.href
-                      ? 'text-primary-600 bg-primary-50'
-                      : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                      ? 'text-white bg-white/20'
+                      : 'text-gray-300 hover:text-white hover:bg-white/10'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -260,18 +272,18 @@ const Header = () => {
               ))}
 
               {!isAuthenticated && (
-                <div className="pt-4 pb-3 border-t border-gray-200">
+                <div className="pt-4 pb-3 border-t border-gray-700">
                   <div className="space-y-1">
                     <Link
                       to="/auth/login"
-                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                      className="block px-3 py-2 text-base font-medium rounded-lg transition-colors text-gray-300 hover:text-white hover:bg-white/10"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign in
                     </Link>
                     <Link
                       to="/auth/register"
-                      className="block px-3 py-2 text-base font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors"
+                      className="block px-3 py-2 text-base font-medium rounded-lg transition-colors text-gray-900 bg-white hover:bg-gray-100"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign up

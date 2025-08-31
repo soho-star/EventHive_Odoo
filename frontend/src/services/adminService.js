@@ -54,6 +54,12 @@ const adminService = {
     const response = await api.patch(`/admin/users/${id}/verify`, { isVerified });
     return response.data;
   },
+
+  // Delete event
+  deleteEvent: async (id) => {
+    const response = await api.delete(`/admin/events/${id}`);
+    return response.data;
+  },
 };
 
 export default adminService;

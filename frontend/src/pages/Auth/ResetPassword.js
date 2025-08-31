@@ -55,13 +55,13 @@ const ResetPassword = () => {
   if (!token) {
     return (
       <div className="text-center">
-        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Invalid Reset Link</h2>
-        <p className="text-gray-600 mb-8">
+        <h2 className="text-2xl font-bold text-white mb-4">Invalid Reset Link</h2>
+        <p className="text-gray-300 mb-8">
           This password reset link is invalid or has expired. Please request a new one.
         </p>
         <Link to="/auth/forgot-password">
@@ -76,8 +76,8 @@ const ResetPassword = () => {
   return (
     <div>
       <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold text-gray-900">Reset your password</h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <h2 className="text-3xl font-bold text-white">Reset your password</h2>
+        <p className="mt-2 text-sm text-gray-300">
           Enter your new password below
         </p>
       </div>

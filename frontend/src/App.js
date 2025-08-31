@@ -21,6 +21,7 @@ import Register from './pages/Auth/Register';
 import VerifyOTP from './pages/Auth/VerifyOTP';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
+import AdminLogin from './pages/Auth/AdminLogin';
 
 // User Dashboard Pages
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -89,6 +90,9 @@ function App() {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
+
+        {/* Admin Login Route */}
+        <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Booking Routes */}
         <Route 
